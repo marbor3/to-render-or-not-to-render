@@ -1,0 +1,963 @@
+import { nightOwl } from "code-surfer";
+import myTheme from './theme';
+import { Image, Split, Appear, Notes } from 'mdx-deck';
+import { CodeSurferLayout } from "code-surfer";
+import GrillJSLogo from '../images/GrillJS-logo.png';
+import ReactLogo from '../images/React-logo.png';
+import ReactHomePage from '../images/React-home-page.png';
+import CollinsUI from '../images/Collins-ui.png';
+import Fiber from '../images/fiber.jpg';
+import noMemo from '../images/no-memo.gif';
+import noUseMemo from '../images/no-use-memo.gif';
+
+export const themes = [
+    myTheme,
+    nightOwl,
+];
+
+<Split>
+
+# To render or Not to render
+
+<img src={GrillJSLogo} style={{ height: '20vh', backgroundColor: '#ffffff', padding: '2vh' }}/>
+
+<div>2019</div>
+
+</Split>
+
+---
+
+## Should I listen, or go grab a beer?
+<ul>
+    <Appear>
+        <li>see some cool React stuff</li>
+        <li>see some nice code</li>
+        <li>with that gain new coding skills and impress your friends later 🦸‍♂️, so ...</li>
+    </Appear>
+</ul>
+
+<Notes>
+    Are you wondering if you should stay, or go grab something to eat, maybe a cold drink ...
+    Sure, why not, but let me first tell you what you'll miss.
+    You'll see some nice cool React stuff - only that should be enough to keep you sitting for the next 45 minutes!
+    If that is not enough, you'll see some cool code on the screen.
+</Notes>
+
+---
+
+<img src="https://media.giphy.com/media/13cptIwW9bgzk6UVyr/giphy.gif" style={{ height: '80vh' }}/>
+
+---
+
+## So how will I spend next 45 minutes?
+<ul>
+<Appear>
+    <li>Does render mean the same for everyone?</li>
+    <li>How to get from user interaction to DOM render?</li>
+    <li>Reconciliation, Fiber, Bail-out and more ...</li>
+</Appear>
+</ul>
+
+---
+
+## About me
+<Appear>
+    <h3>Hi I’m Marcin, Frontend Engineer.</h3>
+</Appear>
+
+<Notes>
+    ToDo: something about me
+</Notes>
+
+---
+
+# Why
+
+<Notes>
+    As I said already, I'm a Frontend Engineer, and I like it.
+    I'm also getting paid for it! Which is even more awesome.
+    But then I kinda feel that if someone pays me to get some work done, the outcome of my work
+    should be at least good quality.
+    What I'm trying to achive at my work is the feeling that with the current state of knowledge,
+    both mine and stardards set by community I did what I could and I'm proud of it.
+    For example someone joining to my project after it's developed for over year or two and saying,
+    wow, this is one solid clean piece of application you guys build there!
+    I strongly believe that understading mechanisms behind frameworks or libraries that we later
+    use in our projects is the key to success.
+</Notes>
+
+---
+
+# What
+
+<Notes>
+    Now that we know why I'm spending days and days on understanding library mechanisms it would
+    be nice to know What exactly I wanted to show you today.
+</Notes>
+
+---
+
+# This wouldn't be possibile if not for awesome community
+
+- todo links from where I got sources
+
+---
+
+<img src={ReactLogo} style={{ height: '40vh', padding: '2vh' }}/>
+
+<Notes>
+    Let's start from the top.
+    React. You've probably heard about that one.
+    What it really does?
+    If we look to React's home the vere first sentence says
+</Notes>
+
+---
+
+<img src={ReactHomePage} style={{ height: '80vh', padding: '2vh', objectFit: 'contain' }}/>
+
+<Notes>
+    React - A JavaScript library for building user interfaces.
+    Now - it looks like React wont solve all our problems, but at least it should help with the UI.
+    Now User Interface, you probably know what it is, lets also check the dictionary definition of it.
+</Notes>
+
+---
+
+<img src={CollinsUI} style={{ height: '80vh', padding: '2vh', objectFit: 'contain' }}/>
+
+<Notes>
+    After Collins definition of a UI, what would really like to know is how does to path look
+    from a User Interaction to displaying result on his screen.
+    Let's take a part of UI.
+</Notes>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const WishList = () => {
+    return (
+        <>
+            All the wishes!
+        </>
+    );
+};
+```
+
+```js 2,6,7
+const WishList = () => {
+    const [count, setCount] = useState(0);
+
+    return (
+        <>
+            <div>You have currently {count} wishes.</div>
+            <button>Make a wish</button>
+        </>
+    );
+};
+```
+
+```js 3,4,5,9,10
+const WishList = () => {
+    const [count, setCount] = useState(0);
+    const makeAWish = function() {
+        setCount(count => count + 1);
+    };
+
+    return (
+        <>
+            <WishCounter count={count} />
+            <button onClick={makeAWish}>Make a wish</button>
+        </>
+    );
+};
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    Let's imagine a small component - as WishList
+    Is displays number of wishes we've made.
+    Let's maybe add a possibility to wish for something. To make the wish come true we need to keep it to ourselfs, so we
+    need only Make a wish button, not need to yell.
+    Now clicking on Make a whish should increase our WishList counter.
+    'click' and it does
+    So what does exactly React do for us here
+</Notes>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-0-0mmtp?fontsize=14" title="wishlist-0" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-0-0mmtp">sandbox</a>
+
+---
+
+# Render?
+
+<img src="https://media.giphy.com/media/fV0oSDsZ4UgdW/giphy.gif" style={{ width: '80vh', padding: '2vh' }}/>
+
+<Notes>
+    There are two meanings of “render” in React that people often get confused about:
+    (1) getting the React elements from your components (calling your component’s render method) during an update and
+    (2) actually rendering updates to the DOM
+    From now on lets stick to the first definition, so for us 'reder' is:
+    The phase in when React determines what changes need to be made to e.g. the DOM. During this phase, React calls render and then compares the result to the previous render.
+    and the second one we'll call commit:
+    The phase is when React applies any changes. (In the case of React DOM, this is when React inserts, updates, and removes DOM nodes.)
+    Let's focus first on render phase.
+    So we know React must be keeping somehow representation of our components, to then compare it and apply updates to the DOM.
+    But how this exactly looks like?
+</Notes>
+
+---
+
+# VirtualDOM
+
+<Appear>
+    <h2>Nope, not anymore</h2>
+</Appear>
+
+<Notes>
+    When React came out VirtualDOM was a huge thing, simple yet atractive.
+    Lately, community figured out that React could be bound to different types of outputs, not only DOM, also Native Phone apps, PDFs Virtual Reality?
+    That's why last few years guys in core React team were rewritting it's core algorithm in a completely new way.
+</Notes>
+
+---
+
+## Fiber reconciliation algorithm
+
+<img src="https://media.giphy.com/media/iMJSCqtsi20V9xgpPu/giphy.gif" style={{ width: '60vh' }}/>
+
+<Notes>
+    Yep, that's the thing. You may have heard about it, it's been around almost two years now.
+    This is one of the key parts of React Core.
+    So lets start from the basics, what is reconciliation?
+</Notes>
+
+---
+
+# Reconciliation
+
+<Notes>
+    In a nutshell, Reconciliation is a Diffing algorithm that calculates what changes need to be done from current state of our Application Components
+    after changing it's state in some way. It's independet on DOM updates, that was one of they focus points React Core Team tried to accomplish.
+    We can later have multiple different 'rendering engines' like react-dom or react native to figure out real changes that output components that needs to be done.
+    Another focus point was - to make this phase interuptable, to be able to priotiaze some work, or even add more threads to deal with some work,
+    possibly in shorter amount of time.
+    In order to understand basics of this algorithm we need to understand how does representation of our comonents look inside React.
+    Let's check out Fibers.
+</Notes>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const WishList = () => {
+    const [count, setCount] = useState(0);
+    const makeAWish = function() {
+        setCount(count => count + 1);
+    };
+
+    return [
+        <WishCounter key="counter" count={count} />,
+        <button key="make-a-wish" onClick={makeAWish}>
+            Make a wish
+        </button>
+    ];
+};
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    Let's got back to our Wishlist example.
+    As you may remember this was a simple contaner with single state, text to display state value and a button to inrease state value.
+    But this is a functional component with JSX, in order to process it further, React transforms JSX to set of element contructors.
+</Notes>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const WishList = () => {
+    const [count, setCount] = useState(0);
+    const makeAWish = function() {
+        setCount(count => count + 1);
+    };
+
+    return [
+        React.createElement(WishCounter, {
+            key: "counter",
+            count: count
+        }),
+        React.createElement(
+            "button",
+            {
+                key: "make-a-wish",
+                onClick: makeAWish
+            },
+            "Make a wish"
+        )
+    ];
+};
+
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    We might even try to write code like this. The construction is simple and understandable.
+    With this React can then run the 'render' method to create React elements.
+</Notes>
+
+---
+
+<CodeSurferLayout>
+
+```js
+{
+    $$typeof: Symbol(react.element)
+    props: {
+        children: [
+            {
+                $$typeof: Symbol(react.element)
+                props: {count: 3}
+                type: ƒ WishCounter(_ref)
+            }, {
+                $$typeof: Symbol(react.element)
+                props: {onClick: ƒ, children: "Add a wish"}
+                type: "button"
+            }
+        ]
+    },
+    type: Symbol(react.fragment)
+}
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    With some simplification it's roughly how a sample 'render' output of our example looks.
+    While this is getting more complicated, this is still a plain old tree, one can easily imagine it's DOM representation.
+    Then our reconciliation algorithm steps in, data from every React element returned from the render method is merged into the tree of fiber nodes.
+    Every React element has a corresponding fiber node. Unlike React elements, like the ones here, fibers aren’t re-created on every render.
+    They rather represent a Unit of Work.
+    To cover the whole topic, we would need rest of the day, so let me show you a bit simplified version, to get the core idea of the 
+    algorithm.
+</Notes>
+
+---
+
+# Fiber
+
+<img src="https://media.giphy.com/media/3oKIPpFhwsMNrRIjN6/giphy.gif" style={{ width: '80vh' }}/>
+
+<Notes>
+    As said, Fiber is a representation of a Unit of Work. Main reasons behind rewriting this part of React were:
+    - to be able to pause work and come back to it later
+    - assign priority to different types of work.
+    - reuse previously completed work.
+    - abort work if it's no longer needed.
+    and with that first we could probably observe performance boost at least in some situations.
+    And second - it could then serve as base for next planned updates - error boundaries and suspense.
+    Now lets check out structure of a Fiber
+</Notes>
+
+---
+
+<CodeSurferLayout>
+
+```js
+{
+    alternate: FiberNode {}
+    child: FiberNode {
+        tag: 5,
+        elementType: "div",
+        type: "div",
+        stateNode: div,
+        …
+    }
+    elementType: ƒ WishCounter(_ref)
+    firstEffect: null
+    lastEffect: FiberNode {}
+    memoizedProps: {count: 2}
+    memoizedState: null
+    nextEffect: null
+    pendingProps: {count: 2}
+    return: FiberNode {}
+    sibling: FiberNode {
+        tag: 5,
+        elementType: "button",
+        type: "button",
+        stateNode: button,
+        …
+    }
+    stateNode: null
+    tag: 0
+    type: ƒ WishCounter(_ref)
+    updateQueue: null
+}
+```
+
+```js 3,17,18
+{
+    alternate: FiberNode {}
+    child: FiberNode {
+        tag: 5,
+        elementType: "div",
+        type: "div",
+        stateNode: div,
+        …
+    }
+    elementType: ƒ WishCounter(_ref)
+    firstEffect: null
+    lastEffect: FiberNode {}
+    memoizedProps: {count: 2}
+    memoizedState: null
+    nextEffect: null
+    pendingProps: {count: 2}
+    return: FiberNode {}
+    sibling: FiberNode {
+        tag: 5,
+        elementType: "button",
+        type: "button",
+        stateNode: button,
+        …
+    }
+    stateNode: null
+    tag: 0
+    type: ƒ WishCounter(_ref)
+    updateQueue: null
+}
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    Like React element, this example shows also simplified Fiber Node.
+    For now lets focus on this 3 elements - child, sibling, return.
+    What could look like a tree at first galance in fact is a bit more tricky structure.
+</Notes>
+
+---
+
+## Singly linked list tree traversal
+
+<img src={Fiber} style={{ width: '80vh', backgroundColor: '#ffffff', padding: '2vh' }}/>
+
+<Notes>
+    Looking at our WishList example - this shows how Fibers are linked within the component.
+    Interesting is fact that there's no connection from parent to all children, only first child.
+    Then each child Fiber is connected with it's siblings.
+    Now lets make things complicated.
+    Short intro into how things work.
+    Work starts from the top.
+    Then the order of work looks similar to what we know from source debugging. React steps into child Fiber,
+    begins work there, and does that for until there's no child for a Fiber or for some reason (on that later) there's no work to be done there.
+    Then it checks for existing sibling Fiber and so on.
+    During work render methods from our components are run, this may lead to list of changes that need to be done later.
+    Important to remember - this phase does not produce any changes to the DOM, it can be done asynchronus.
+    As a result we have a list of 'effects' that the followup phase will process and in that phase - commit, we'll see our DOM updated.
+    Thing about async nature of this algorithm - the idea is that this phase is run whenever there's a browser idle period, for that is uses `requestIdleCallback`
+    and polyfills it when needed.
+    So whenever's theres still time, it processes the list. When there's high priority task - like animation - comming, the work can be paused
+    and continied later. To keep the page at 60fps, it means it will have each time 16ms before next animation frame.
+</Notes>
+
+---
+
+<CodeSurferLayout>
+
+```js 3,17,18
+{
+    alternate: FiberNode {}
+    child: FiberNode {
+        tag: 5,
+        elementType: "div",
+        type: "div",
+        stateNode: div,
+        …
+    }
+    elementType: ƒ WishCounter(_ref)
+    firstEffect: null
+    lastEffect: FiberNode {}
+    memoizedProps: {count: 2}
+    memoizedState: null
+    nextEffect: null
+    pendingProps: {count: 2}
+    return: FiberNode {}
+    sibling: FiberNode {
+        tag: 5,
+        elementType: "button",
+        type: "button",
+        stateNode: button,
+        …
+    }
+    stateNode: null
+    tag: 0
+    type: ƒ WishCounter(_ref)
+    updateQueue: null
+}
+```
+
+```js 11,12,15
+{
+    alternate: FiberNode {}
+    child: FiberNode {
+        tag: 5,
+        elementType: "div",
+        type: "div",
+        stateNode: div,
+        …
+    }
+    elementType: ƒ WishCounter(_ref)
+    firstEffect: null
+    lastEffect: FiberNode {}
+    memoizedProps: {count: 2}
+    memoizedState: null
+    nextEffect: null
+    pendingProps: {count: 2}
+    return: FiberNode {}
+    sibling: FiberNode {
+        tag: 5,
+        elementType: "button",
+        type: "button",
+        stateNode: button,
+        …
+    }
+    stateNode: null
+    tag: 0
+    type: ƒ WishCounter(_ref)
+    updateQueue: null
+}
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    fibers also play role in effect list, this is a linked list, with pointers to first, next and last effect in current subtree.
+    With the introduction of hooks and new algorithm we need to switch a bit our mindsets to think in effects rather in lifecycle callbacks.
+    But more on that later
+</Notes>
+
+---
+
+## Commit phase
+
+<img src="https://media.giphy.com/media/d31vTpVi1LAcDvdm/giphy.gif" style={{ width: '80vh' }}/>
+
+<Notes>
+    Previously we've learned that out of render phase we're getting a list of effects. This is a singly linked list in which order of the effects is set
+    not only on the fact when the Fiber was processed by reconciliation, but also by priority of the effect.
+    For example animation effects have a higher prority then data fetching and will be resolved earlier.
+    Important here is - the whole phase is synchronus - so all changes will be commited without breaks.
+    Taking a look how it used to work in versions before 16 - after each component render menthod being called, all DOM updates were imediatelly
+    run afterwards and like this component after component. It's a huge step forward!
+    Now lets move to the next point - a very important place where we can make things run faster or more often
+    - make things go slower is the render function of our component.
+</Notes>
+
+---
+
+# Avoid re-renders
+
+<Notes>
+    On one side, with the optimizations to reconciliation and spliting commit phase the topic is not that important in our daily life.
+    Also following rule not to optimize your code premature and withour proper measurments - we don't really need to do anything at the beginning.
+    But to be able to solve probles as they start to appear, or just if we enojoy even microptimizaitons we should know our possibilities or even where
+    to start.
+</Notes>
+
+---
+
+# React.memo and React.PureComponent
+
+<Notes>
+    There's a way to tell component that nothing changed inside, even if it get's new props.
+    This can be done with React.memo for functional components.
+    Lets extend our Wishlist example with and input field, where we write our wish, and some text field that displays the text you entered as soon as you
+    hit a key.
+</Notes>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const WishList = () => {
+    const [count, setCount] = useState(0);
+    const makeAWish = function() {
+        setCount(count => count + 1);
+    };
+
+    return [
+        <WishCounter key="counter" count={count} />,
+        <button key="make-a-wish" onClick={makeAWish}>
+            Make a wish
+        </button>
+    ];
+};
+```
+
+```js 3,6,10,12,13,14,15,19,20,21,22,23,24
+const WishList = () => {
+    const [count, setCount] = useState(0);
+    const [wishInProgress, setWishInProgress] = useState("");
+    const makeAWish = function() {
+        setCount(count => count + 1);
+        setWishInProgress("");
+    };
+
+    return (
+        <Profiler id="wishlist">
+            <WishCounter key="counter" count={count} />
+            <WishText
+                key="wish-text"
+                setWishInProgress={setWishInProgress}
+            />
+            <button key="make-a-wish" onClick={makeAWish}>
+                Make a wish
+            </button>
+            <WishPreview
+                key="wish-in-progress"
+                wishInProgress={wishInProgress}
+            />
+        </Profiler>
+    );
+};
+```
+
+</CodeSurferLayout>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const onRender = (
+    profilerId, // the "id" prop of the Profiler tree that has just committed
+    phase, // either "mount" (if the tree just mounted) or "update" (if it re-rendered)
+    actualDuration, // time spent rendering the committed update
+    baseDuration, // estimated time to render the entire subtree without memoization
+    startTime, // when React began rendering this update
+    commitTime, // when React committed this update
+    interactions // the Set of interactions belonging to this update
+) => {
+    console.log(
+        `%c${phase}%c %c${profilerId}%c %c${Math.round(actualDuration * 100) /
+            100}ms`,
+        "color: white; background-color: #FF1654; padding: 2px 5px; border-radius: 2px; margin: 0;",
+        {},
+        "color: white; background-color: #247BA0; padding: 2px 5px; border-radius: 2px",
+        {},
+        "color: white; background-color: #70C1B3; padding: 2px 5px; border-radius: 2px",
+        interactions
+    );
+};
+
+const Profiler = ({ id, children }) => (
+    <React.Profiler id={id} onRender={onRender}>
+        {children}
+    </React.Profiler>
+);
+```
+
+</CodeSurferLayout>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const WishText = ({ setWishInProgress }) => (
+    <Profiler id="wish-text">
+        <input
+            onChange={event => {
+                setWishInProgress(event.currentTarget.value);
+            }}
+            type="text"
+        />
+    </Profiler>
+);
+```
+
+</CodeSurferLayout>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const WishPreview = ({ wishInProgress }) => (
+    <Profiler id="wish-preview">
+        {wishInProgress !== "" ? (
+            <div>
+                What I would really like from Santa is ... {wishInProgress}
+            </div>
+        ) : null}
+    </Profiler>
+);
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    By default whenever a state changes on the top level, all child components are re-rendered (remember, that does not mean any DOM will change,
+    just that their render function will run again).
+    We can easily avoid it in cases that for some children there's no change in properties that they use.
+    It's called memoization, can be done with: wrapping your functional component in `React.memo` call or extending React.PureComponent class
+    in class components.
+</Notes>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-1-8vrrm?fontsize=14" title="wishlist-1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-1-8vrrm">sandbox</a>
+
+---
+
+<CodeSurferLayout>
+
+```js
+const WishCounter = ({ count }) => (
+    <Profiler id="wish-counter">
+        <div>You have currently {count} wishes:</div>
+    </Profiler>
+);
+```
+
+```js 1,2,3,5,9
+function areEqual(prevProps, nextProps) {
+    return prevProps.count === nextProps.count;
+}
+
+const WishCounter = React.memo(({ count }) => (
+    <Profiler id="wish-counter">
+        <div>You have currently {count} wishes:</div>
+    </Profiler>
+), areEqual);
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    In our example, whenever something is writen inside input field all components on the page are re-rendered.
+    This does not cost a lot, untill it does ...
+    React.memo uses a shallow comparison to compare old and new props, if those match, there's no re-render.
+    To add more sophisticated logic to comparison function there's a second argument for React.memo, a function to compare if
+    components are equal considering prev and next props. Important - this is the opposite to shouldComponentUpdate function.
+</Notes>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-1-g4zhw?fontsize=14" title="wishlist-1.1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-11-g4zhw">sandbox</a>
+
+---
+
+<img src={noMemo} />
+
+---
+
+# React.memo all the things!
+
+<img src="https://media.giphy.com/media/l3q2t2KAyvxy9xBe0/giphy.gif" style={{ width: '60vw' }}/>
+
+<Notes>
+    It coudln't be that easy, could it?
+    There's at least one case it wont make sense and in fact will hurt performance.
+    React.memo adds additional check before rendering, if our component properties change a lot, we will be doing uneeded
+    check in all these cases.
+</Notes>
+
+---
+
+## useMemo
+
+<CodeSurferLayout>
+
+```js 2,9
+const WishList = () => {
+    const startsCount = useMemo(() => countStars(count), [count]);
+
+    return (
+        <Profiler id="wishlist">
+            <WishCounter key="counter" count={count} />
+            <WishText key="wish-text" setWishInProgress={setWishInProgress} />
+            <button key="make-a-wish" onClick={makeAWish}>
+                `Make a wish, there are still {startsCount} stars`
+            </button>
+        </Profiler>
+    );
+};
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    For functional components rendering causes any calculations you have inside the component to be recomputed.
+    In some cases we need to make some complex and heavy operations in one of our components. We want to not only count on Bail-out,
+    we can save some computation time and therefore speed our app by wraping heavy computation functions in useMemo hook.
+    as a second argument we provide an array of properties to be watched for changes, if any of those change, function will be run.
+</Notes>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-2-z3cmp?fontsize=14" title="wishlist-2" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-2-z3cmp">sandbox</a>
+
+---
+
+<img src={noUseMemo} />
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-22-fztmd?fontsize=14" title="wishlist-2.2" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-22-fztmd">sandbox</a>
+
+---
+
+## useCallback
+
+<CodeSurferLayout>
+
+```js
+const WishList = () => {
+    const makeAWish = useCallback(
+        function() {
+            if (count < 3) {
+                setCount(count => count + 1);
+                setWishInProgress("");
+            }
+        },
+        [count]
+    );
+
+    return (
+        <Profiler id="wishlist">
+            <MakeAWish makeAWish={makeAWish} />
+        </Profiler>
+    );
+};
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    useCallback, another way to bail out of rendering, this time for functions.
+    Passes memoized version of callback that only changes when one of dependencies in array changes.
+</Notes>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-3-yis9c?fontsize=14" title="wishlist-3" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-3-yis9c">sandbox</a>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-3-5xev3?fontsize=14" title="wishlist-3.1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-31-5xev3">sandbox</a>
+
+---
+
+# useRef
+
+<Notes>
+    TODO: some useRef example
+    Worth mentioning is also useRef - most common use case of refs was to get access to DOM nodes or React elements, but in general current
+    property of ref can hold any value, is mutable and chaning it doesn't trigger a re-render.
+</Notes>
+
+---
+
+# Object literals in JSX
+
+---
+
+<CodeSurferLayout>
+
+```js 7
+const WishList = () => {
+    const [wishInProgress, setWishInProgress] = useState("");
+
+    return (
+        <Profiler id="wishlist">
+            <WishText
+                style={{ marginTop: 10 }}
+                setWishInProgress={setWishInProgress}
+            />
+        </Profiler>
+    );
+};
+```
+```js 1,9
+const style = { marginTop: 10 };
+
+const WishList = () => {
+    const [wishInProgress, setWishInProgress] = useState("");
+
+    return (
+        <Profiler id="wishlist">
+            <WishText
+                style={style}
+                setWishInProgress={setWishInProgress}
+            />
+        </Profiler>
+    );
+};
+```
+
+</CodeSurferLayout>
+
+<Notes>
+    Beware of object literals in JSX, each re-render creates a new object that then is passed to child coponent.
+    React.memo uses shallow comparison by default so this will cause our child component to re-render every time parent re-renders.
+</Notes>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-31-emy6y?fontsize=14" title="wishlist-4" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-4-emy6y">sandbox</a>
+
+---
+
+<iframe src="https://codesandbox.io/embed/wishlist-4-clkqo?fontsize=14" title="wishlist-4.1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-41-clkqo">sandbox</a>
+
+---
+
+## Re-write all the code!
+
+<Appear>
+    <h3>Measure before you optimize!</h3>
+</Appear>
+
+<Notes>
+    If you aren’t measuring, you can’t even know if your optimizations are better, and you certainly won’t know if they make things worse!
+</Notes>
+
+---
+
+## Some tools to help you optimize your app
+
+<ul>
+    <Appear>
+        <li><a href="https://react-devtools-tutorial.now.sh/">React dev tools tutorial</a></li>
+        <li><a href="https://calibreapp.com/blog/react-performance-profiling-optimization/">Chrome dev tools - profiling React performance</a></li>
+        <li><a href="https://github.com/welldone-software/why-did-you-render">why did you render</a></li>
+        <li><a href="https://github.com/maicki/why-did-you-update">why did you update</a></li>
+    </Appear>
+</ul>
+
+---
+
+Thank you for listening!
+
+<Notes>
+    TODO: some closing
+</Notes>

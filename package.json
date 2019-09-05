@@ -1,0 +1,21 @@
+{
+  "name": "conf19",
+  "version": "1.0.0",
+  "description": "To Render or not to Render",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@mdx-deck/themes": "3.0.8",
+    "code-surfer": "3.0.0-alpha.0",
+    "mdx-deck": "3.0.9",
+    "mdx-deck-code-surfer": "0.5.5",
+    "prism-react-renderer": "0.1.7",
+    "raw-loader": "3.1.0"
+  },
+  "scripts": {
+    "start": "mdx-deck src/deck.mdx",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "marcin.borowski85@gmail.com",
+  "license": "ISC"
+}
