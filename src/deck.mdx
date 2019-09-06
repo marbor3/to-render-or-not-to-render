@@ -7,8 +7,8 @@ import ReactLogo from '../images/React-logo.png';
 import ReactHomePage from '../images/React-home-page.png';
 import CollinsUI from '../images/Collins-ui.png';
 import Fiber from '../images/fiber.jpg';
-import noMemo from '../images/no-memo.gif';
 import noUseMemo from '../images/no-use-memo.gif';
+import Iframe from './slides/iframe';
 
 export const themes = [
     myTheme,
@@ -37,6 +37,9 @@ export const themes = [
 </ul>
 
 <Notes>
+    <li>see some cool React stuff</li>
+    <li>see some nice code</li>
+    <li>with that gain new coding skills and impress your friends later 🦸‍♂️, so ...</li>
     Are you wondering if you should stay, or go grab something to eat, maybe a cold drink ...
     Sure, why not, but let me first tell you what you'll miss.
     You'll see some nice cool React stuff - only that should be enough to keep you sitting for the next 45 minutes!
@@ -58,15 +61,31 @@ export const themes = [
 </Appear>
 </ul>
 
+<Notes>
+    <li>Does render mean the same for everyone?</li>
+    <li>How to get from user interaction to DOM render?</li>
+    <li>Reconciliation, Fiber, Bail-out and more ...</li>
+</Notes>
+
 ---
 
 ## About me
+<ul>
 <Appear>
-    <h3>Hi I’m Marcin, Frontend Engineer.</h3>
+    <li>Hi I’m Marcin, Frontend Engineer 👋</li>
+    <li>I'm from Wrocław 🛴</li>
+    <li>I work as Frontend Engineer at Unic</li>
+    <li>and I'm looking for new ways to improve my skills!</li>
+    <li>you can find me on <a href="https://github.com/marbor3/to-render-or-not-to-render">Github</a> and <a href="https://twitter.com/dobryglina">Twitter</a> where I have two friends (Hi Thomas, hi Wojtek) and two tweets.</li>
 </Appear>
+</ul>
 
 <Notes>
-    ToDo: something about me
+    <li>Hi I’m Marcin, Frontend Engineer 👋</li>
+    <li>I'm from Wrocław 🛴</li>
+    <li>I work as Frontend Engineer at Unic</li>
+    <li>and I'm looking for new ways to improve my skills!</li>
+    <li>you can find me on <a href="https://github.com/marbor3/to-render-or-not-to-render">Github</a> and <a href="https://twitter.com/dobryglina">Twitter</a> where I have two friends (Hi Thomas, hi Wojtek) and two tweets.</li>
 </Notes>
 
 ---
@@ -74,7 +93,7 @@ export const themes = [
 # Why
 
 <Notes>
-    As I said already, I'm a Frontend Engineer, and I like it.
+    I'm a Frontend Engineer, and I like it.
     I'm also getting paid for it! Which is even more awesome.
     But then I kinda feel that if someone pays me to get some work done, the outcome of my work
     should be at least good quality.
@@ -97,12 +116,6 @@ export const themes = [
 
 ---
 
-# This wouldn't be possibile if not for awesome community
-
-- todo links from where I got sources
-
----
-
 <img src={ReactLogo} style={{ height: '40vh', padding: '2vh' }}/>
 
 <Notes>
@@ -119,17 +132,6 @@ export const themes = [
 <Notes>
     React - A JavaScript library for building user interfaces.
     Now - it looks like React wont solve all our problems, but at least it should help with the UI.
-    Now User Interface, you probably know what it is, lets also check the dictionary definition of it.
-</Notes>
-
----
-
-<img src={CollinsUI} style={{ height: '80vh', padding: '2vh', objectFit: 'contain' }}/>
-
-<Notes>
-    After Collins definition of a UI, what would really like to know is how does to path look
-    from a User Interaction to displaying result on his screen.
-    Let's take a part of UI.
 </Notes>
 
 ---
@@ -189,8 +191,7 @@ const WishList = () => {
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-0-0mmtp?fontsize=14" title="wishlist-0" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-0-0mmtp">sandbox</a>
+<Iframe sandboxId="wishlist-0-0mmtp" />
 
 ---
 
@@ -215,11 +216,18 @@ const WishList = () => {
 
 # VirtualDOM
 
+<ul>
 <Appear>
-    <h2>Nope, not anymore</h2>
+    <li>a concept where 'virtual' representation of UI is kept in memory</li>
+    <li>it's idea is to abstract any manipulations of DOM, and with that abstraction optimize them</li>
+    <li>the virtual abstraction is synced with browser or possibly other outputs using libraries like ReactDOM, React Native, React VR?</li>
 </Appear>
+</ul>
 
 <Notes>
+    <li>a concept where 'virtual' representation of UI is kept in memory</li>
+    <li>it's idea is to abstract any manipulations of DOM, and with that abstraction optimize them</li>
+    <li>the virtual abstraction is synced with browser or possibly other outputs using libraries like ReactDOM, React Navite, React VR?</li>
     When React came out VirtualDOM was a huge thing, simple yet atractive.
     Lately, community figured out that React could be bound to different types of outputs, not only DOM, also Native Phone apps, PDFs Virtual Reality?
     That's why last few years guys in core React team were rewritting it's core algorithm in a completely new way.
@@ -344,11 +352,6 @@ const WishList = () => {
 <Notes>
     With some simplification it's roughly how a sample 'render' output of our example looks.
     While this is getting more complicated, this is still a plain old tree, one can easily imagine it's DOM representation.
-    Then our reconciliation algorithm steps in, data from every React element returned from the render method is merged into the tree of fiber nodes.
-    Every React element has a corresponding fiber node. Unlike React elements, like the ones here, fibers aren’t re-created on every render.
-    They rather represent a Unit of Work.
-    To cover the whole topic, we would need rest of the day, so let me show you a bit simplified version, to get the core idea of the 
-    algorithm.
 </Notes>
 
 ---
@@ -358,11 +361,16 @@ const WishList = () => {
 <img src="https://media.giphy.com/media/3oKIPpFhwsMNrRIjN6/giphy.gif" style={{ width: '80vh' }}/>
 
 <Notes>
-    As said, Fiber is a representation of a Unit of Work. Main reasons behind rewriting this part of React were:
-    - to be able to pause work and come back to it later
-    - assign priority to different types of work.
-    - reuse previously completed work.
-    - abort work if it's no longer needed.
+    Then our reconciliation algorithm steps in, data from every React element returned from the render method is merged into the tree of fiber nodes.
+    Every React element has a corresponding fiber node. Unlike React elements, like the ones here, fibers aren’t re-created on every render.
+    They rather represent a Unit of Work.
+    To cover the whole topic, we would need rest of the day, so let me show you a bit simplified version, to get the core idea of the 
+    algorithm.
+    Main reasons behind rewriting this part of React were:
+    <li>to be able to pause work and come back to it later</li>
+    <li>assign priority to different types of work.</li>
+    <li>reuse previously completed work.</li>
+    <li>abort work if it's no longer needed.</li>
     and with that first we could probably observe performance boost at least in some situations.
     And second - it could then serve as base for next planned updates - error boundaries and suspense.
     Now lets check out structure of a Fiber
@@ -564,7 +572,7 @@ const WishList = () => {
 
 ---
 
-# Avoid re-renders
+# Avoiding re-renders
 
 <Notes>
     On one side, with the optimizations to reconciliation and spliting commit phase the topic is not that important in our daily life.
@@ -716,8 +724,7 @@ const WishPreview = ({ wishInProgress }) => (
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-1-8vrrm?fontsize=14" title="wishlist-1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-1-8vrrm">sandbox</a>
+<Iframe sandboxId="wishlist-1-8vrrm" />
 
 ---
 
@@ -755,12 +762,7 @@ const WishCounter = React.memo(({ count }) => (
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-1-g4zhw?fontsize=14" title="wishlist-1.1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-11-g4zhw">sandbox</a>
-
----
-
-<img src={noMemo} />
+<Iframe sandboxId="wishlist-1-g4zhw" />
 
 ---
 
@@ -773,6 +775,8 @@ const WishCounter = React.memo(({ count }) => (
     There's at least one case it wont make sense and in fact will hurt performance.
     React.memo adds additional check before rendering, if our component properties change a lot, we will be doing uneeded
     check in all these cases.
+    Besides, it's exteamly important to remember - premature optimization is always a bad thing. Measure then make improvements and measure again.
+    What I show you here are techniques to tryout where you already have a problem with performance.
 </Notes>
 
 ---
@@ -808,8 +812,7 @@ const WishList = () => {
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-2-z3cmp?fontsize=14" title="wishlist-2" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-2-z3cmp">sandbox</a>
+<Iframe sandboxId="wishlist-2-z3cmp" />
 
 ---
 
@@ -817,8 +820,7 @@ const WishList = () => {
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-22-fztmd?fontsize=14" title="wishlist-2.2" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-22-fztmd">sandbox</a>
+<Iframe sandboxId="wishlist-22-fztmd" />
 
 ---
 
@@ -855,13 +857,11 @@ const WishList = () => {
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-3-yis9c?fontsize=14" title="wishlist-3" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-3-yis9c">sandbox</a>
+<Iframe sandboxId="wishlist-3-yis9c" />
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-3-5xev3?fontsize=14" title="wishlist-3.1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-31-5xev3">sandbox</a>
+<Iframe sandboxId="wishlist-3-5xev3" />
 
 ---
 
@@ -921,24 +921,23 @@ const WishList = () => {
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-31-emy6y?fontsize=14" title="wishlist-4" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-4-emy6y">sandbox</a>
+<Iframe sandboxId="wishlist-31-emy6y" />
 
 ---
 
-<iframe src="https://codesandbox.io/embed/wishlist-4-clkqo?fontsize=14" title="wishlist-4.1" allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden; margin-top: auto;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-<a style={{ fontSize: '16px', marginTop: 'auto' }} href="https://codesandbox.io/s/wishlist-41-clkqo">sandbox</a>
+<Iframe sandboxId="wishlist-4-clkqo" />
 
 ---
 
 ## Re-write all the code!
 
 <Appear>
-    <h3>Measure before you optimize!</h3>
+    <h3>Measure before you optimise!</h3>
 </Appear>
 
 <Notes>
-    If you aren’t measuring, you can’t even know if your optimizations are better, and you certainly won’t know if they make things worse!
+    <h3>Measure before you optimize!</h3>
+    If you aren’t measuring, you can’t even know if your optimisations are better, and you certainly won’t know if they make things worse!
 </Notes>
 
 ---
@@ -954,10 +953,42 @@ const WishList = () => {
     </Appear>
 </ul>
 
+<Notes>
+    <li><a href="https://react-devtools-tutorial.now.sh/">React dev tools tutorial</a></li>
+    <li><a href="https://calibreapp.com/blog/react-performance-profiling-optimization/">Chrome dev tools - profiling React performance</a></li>
+    <li><a href="https://github.com/welldone-software/why-did-you-render">why did you render</a></li>
+    <li><a href="https://github.com/maicki/why-did-you-update">why did you update</a></li>
+</Notes>
+
 ---
 
-Thank you for listening!
+# Summary
+
+<ul>
+    <Appear>
+        <li>Know your tools - just reading React docs and understanding it will boost your code five times.</li>
+        <li>Try out things when learning - codesandbox.io ❤ </li>
+        <li>Be cautious with premature optimizations.</li>
+    </Appear>
+</ul>
 
 <Notes>
-    TODO: some closing
+    <li>Know your tools - just reading React docs and understanding it will boost your code five times.</li>
+    <li>Try out things when learning - codesandbox.io ❤ </li>
+    <li>Be cautious with premature optimisations.</li>
 </Notes>
+
+---
+
+# This wouldn't be possible if not for awesome community
+
+- [React in Depth](https://medium.com/react-in-depth) by Max Koretskyi aka Wizard
+- [React Performance Primer](https://hackernoon.com/react-performance-primer-64fe623c4821) by Carlos Matias
+- [6 tips for better React performance](https://itnext.io/6-tips-for-better-react-performance-4329d12c126b) by Aggelos Arvanitakis
+- [React docs](https://reactjs.org/docs/reconciliation.html) by 🦸‍♂️
+
+---
+
+Thank you for listening 🍻!
+
+

@@ -14,6 +14,7 @@
   },
   "scripts": {
     "start": "mdx-deck src/deck.mdx",
+    "build": "mdx-deck build src/deck.mdx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "marcin.borowski85@gmail.com",
